@@ -19,6 +19,7 @@ def ask_openai(prompt, model, temperature=0.5, max_tokens=2048, top_p=1, frequen
         top_p=top_p,
         frequency_penalty=frequency_penalty,
         presence_penalty=presence_penalty,
+        prompt_suffix=f"\nConversation ID: {conversation_id}" if conversation_id else None,
         stop=["\n"],
     )
     message = completions.choices[0].text
