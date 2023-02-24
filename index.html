@@ -16,6 +16,7 @@
       const chatForm = document.getElementById("chat-form");
       const chatInput = document.getElementById("chat-input");
       const chatContainer = document.getElementById("chat-container");
+      let conversationId;
 
       chatForm.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -23,9 +24,10 @@
         chatInput.value = "";
         addMessage("Você", message);
         axios
-          .post("/chat", { message })
+          .post("/chat", { message, conversation_id: conversationId })
           .then((response) => {
             const answer = response.data.answer;
+            conversationId = response.data.conversation_id;
             addMessage("Chatbot", answer);
           })
           .catch((error) => console.error(error));
