@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <h1>Chatbot</h1>
+    <div id="chat-container"></div>
+    <form id="chat-form">
+      <input type="text" id="chat-input" />
+      <button type="submit">Enviar</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const chatForm = document.getElementById("chat-form");
+      const chatInput = document.getElementById("chat-input");
+      const chatContainer = document.getElementById("chat-container");
+
+      chatForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const message = chatInput.value;
+        chatInput.value = "";
+        addMessage("Você", message);
+        axios
+          .post("/chat", { message })
+          .then((response) => {
+            const answer = response.data.answer;
+            addMessage("Chatbot", answer);
+          })
+          .catch((error) => console.error(error));
+      });
+
+      function addMessage(user, message) {
+        const messageElement = document.createElement("div");
+        messageElement.innerHTML = `<strong>${user}:</strong> ${message}`;
+        chatContainer.appendChild(messageElement);
+      }
+    </script>
+  </body>
+</html>
